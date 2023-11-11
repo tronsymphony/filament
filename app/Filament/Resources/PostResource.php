@@ -12,6 +12,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DateTimePicker;
 
 class PostResource extends Resource {
 
@@ -22,18 +25,39 @@ class PostResource extends Resource {
 	public static function form( Form $form ): Form {
         return $form
         ->schema([
+
             Forms\Components\TextInput::make('name')
             ->required()
             ->maxLength(255),
+
             Forms\Components\TextInput::make('description')
             ->required()
             ->maxLength(255),
+
             Forms\Components\TextInput::make('notes')
             ->required()
             ->maxLength(255),
+
             Forms\Components\Select::make('owner_id')
-            ->relationship('owner', 'name')
-        
+            ->relationship('owner', 'name'),
+			
+			Forms\Components\RichEditor::make('content')
+			->columnSpan(2)
+			->required(),
+
+			Forms\Components\Section::make('Publishing')
+			->description('Settings for publishing this post.')
+			->schema([
+				Select::make('status')
+					->options([
+						'draft' => 'Draft',
+						'reviewing' => 'Reviewing',
+						'published' => 'Published',
+					])
+					->required(),
+				DateTimePicker::make('published_at'),
+			])
+
         ]);
 	}
 

@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-    // create_patients_table
-    Schema::create('patients', function (Blueprint $table) {
-        $table->id();
-        $table->date('date_of_birth');
-        $table->string('name');
-        $table->foreignId('owner_id')->constrained('owners')->cascadeOnDelete();
-        $table->string('type');
-        $table->timestamps();
-    });
+        // create_patients_table
+        Schema::create('patients', function (Blueprint $table) {
+            $table->id();
+            $table->date('date_of_birth');
+            $table->string('name');
+            $table->foreignId('owner_id')->constrained('owners')->cascadeOnDelete();
+            $table->string('type');
+            $table->timestamps();
+        });
     }
 
     /**
